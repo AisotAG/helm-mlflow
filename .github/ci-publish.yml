@@ -1,0 +1,60 @@
+name: Aisot MlFlow CI Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  HELM_EXPERIMENTAL_OCI: 1
+  HELM_VERSION_TO_INSTALL: 3.7.1
+  GITHUB_CONTAINER_REGISTRY: ghcr.io/aisotag
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout
+      - uses: actions/checkout@v2
+
+      # Extract Tag
+      - name: Extract Version from Tag
+        run: echo "TAG_NAME=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
+
+      # Publish Docker Image
+      - name: Docker - Log in to the GitHub Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.GITHUB_CONTAINER_REGISTRY }}
+          username: ${{ secrets.ROBOT_USERNAME }}
+          password: ${{ secrets.ROBOT_TOKEN }}
+
+      - name: Docker - Build and Push Image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ env.GITHUB_CONTAINER_REGISTRY }}/docker/godaddy-webhook:${{ env.TAG_NAME }}
+
+      # Publish Helm Charts
+      - name: Helm - Install
+        uses: Azure/setup-helm@v1
+        with:
+          version: ${{ env.HELM_VERSION_TO_INSTALL }}
+
+      - name: Helm - Login to GitHub Container Registry
+        run: echo ${{ secrets.ROBOT_TOKEN }} | helm registry login $GITHUB_CONTAINER_REGISTRY --username ${{ secrets.ROBOT_USERNAME }} --password-stdin
+
+      - name: Helm - Update Chart Dependencies - mlflow
+        run: |
+          helm dependency update .
+
+      - name: Helm - Package Chart - mlflow
+        run: |
+          helm package --app-version $TAG_NAME --version $TAG_NAME .
+
+      - name: Helm Publish Chart - mlflow
+        run: |
+          helm push mlflow-$TAG_NAME.tgz oci://$GITHUB_CONTAINER_REGISTRY/helm
