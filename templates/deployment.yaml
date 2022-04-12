@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "aisot-is-market-data-warehouse-service.name" . }}
+  name: {{ include "mlflow.name" . }}
   labels:
-    {{- include "aisot-is-market-data-warehouse-service.labels" . | nindent 4 }}
+    {{- include "mlflow.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "aisot-is-market-data-warehouse-service.selectorLabels" . | nindent 6 }}
+      {{- include "mlflow.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "aisot-is-market-data-warehouse-service.selectorLabels" . | nindent 8 }}
+        {{- include "mlflow.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: {{ include "aisot-is-market-data-warehouse-service.name" . }}
+      serviceAccountName: {{ include "mlflow.name" . }}
       imagePullSecrets:
         - name: {{ .Values.imagePullSecret }}
       containers:
