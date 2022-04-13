@@ -14,6 +14,8 @@ RUN pip install -r requirements.txt
 
 ENV BACKEND_STORE_URI=""
 
+ENV PATH "$PATH:/home/cnb/.local/bin"
+
 # Port
 EXPOSE 80
 
