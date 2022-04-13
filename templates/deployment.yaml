@@ -42,7 +42,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /mnt/aksshare/
+            - mountPath: /home/cnb/aksshare/
               name: artifact-store
       volumes:
         - name: artifact-store

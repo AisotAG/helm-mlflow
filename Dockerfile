@@ -19,4 +19,4 @@ ENV PATH "$PATH:/home/cnb/.local/bin"
 # Port
 EXPOSE 80
 
-CMD mlflow server --host 0.0.0.0 --port 80 --backend-store-uri $BACKEND_STORE_URI --serve-artifacts --artifacts-destination /mnt/aksshare/mlflow
+CMD mlflow server --backend-store-uri $BACKEND_STORE_URI --artifacts-destination "/home/cnb/aksshare/mlflow/artifacts" --serve-artifacts --host 0.0.0.0 --port 80
