@@ -31,6 +31,12 @@ spec:
                 secretKeyRef:
                   name: {{ include "mlflow.name" . }}
                   key: BACKEND_STORE_URI
+            - name: ARTIFACTS_DESTINATION
+              value: '/home/cnb/aksshare/mlflow/artifacts'
+            - name: HOST
+              value: '0.0.0.0'
+            - name: PORT
+              value: '80'
           livenessProbe:
             httpGet:
               path: /
