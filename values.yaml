@@ -15,4 +15,4 @@ postgresql:
   image:
     tag: 11.11.0-debian-10-r92
   postgresqlPassword: postgres
-  fullnameOverride: aisot-mlflow-postgresql
+  fullnameOverride: mlflow-postgresql
