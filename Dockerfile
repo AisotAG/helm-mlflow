@@ -8,13 +8,9 @@ RUN useradd -m -u $UID -g $GID -o -s /bin/bash $UNAME
 
 USER $UNAME
 
-# Pip dependencies
 COPY ./requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
 ENV PATH "$PATH:/home/cnb/.local/bin"
-
-# Port
-EXPOSE 80
 
 CMD mlflow server --backend-store-uri $BACKEND_STORE_URI --artifacts-destination $ARTIFACTS_DESTINATION --serve-artifacts --host $HOST --port $PORT
