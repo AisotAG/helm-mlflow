@@ -20,5 +20,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - '*.{{ .Values.domain }}' # The domain for the wildcard certificate
+        - 'mlflow.{{ .Values.domain }}'
       secretName: {{ include "mlflow.name" . }}-cert # The secret in which the TLS certificate should be stored.
