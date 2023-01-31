@@ -13,4 +13,4 @@ ENV PATH "$PATH:/home/cnb/.local/bin"
 COPY ./requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
-CMD mlflow server --backend-store-uri $BACKEND_STORE_URI --artifacts-destination $ARTIFACTS_DESTINATION --serve-artifacts --host $HOST --port $PORT
+ENTRYPOINT mlflow server --backend-store-uri $BACKEND_STORE_URI --artifacts-destination $ARTIFACTS_DESTINATION --serve-artifacts --host $HOST --port $PORT
