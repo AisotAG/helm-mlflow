@@ -50,6 +50,20 @@ spec:
           volumeMounts:
             - mountPath: /home/cnb/aksshare/
               name: artifact-store
+      initContainers:
+        - name: {{ .Chart.Name }}-db-migration
+          image: "ghcr.io/aisotag/docker/mlflow:{{ .Chart.AppVersion }}"
+          command:
+            - mlflow
+            - db
+            - upgrade
+            - $(BACKEND_STORE_URI)
+          env:
+            - name: BACKEND_STORE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mlflow.name" . }}
+                  key: BACKEND_STORE_URI
       volumes:
         - name: artifact-store
           nfs:
