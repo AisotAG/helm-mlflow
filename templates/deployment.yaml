@@ -32,7 +32,7 @@ spec:
                   name: {{ include "mlflow.name" . }}
                   key: BACKEND_STORE_URI
             - name: ARTIFACTS_DESTINATION
-              value: '/home/cnb/aksshare/mlflow/artifacts'
+              value: '/home/cnb/aksshare/{{ .Release.Namespace }}/{{ include "mlflow.name" . }}/artifacts'
             - name: HOST
               value: '0.0.0.0'
             - name: PORT
