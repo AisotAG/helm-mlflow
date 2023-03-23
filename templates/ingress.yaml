@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: 'mlflow.{{ .Values.domain }}'
+    - host: '{{ .Values.ingress.host }}.{{ .Values.ingress.domain }}'
       http:
         paths:
           - pathType: Prefix
@@ -20,5 +20,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - 'mlflow.{{ .Values.domain }}'
+        - '{{ .Values.ingress.host }}.{{ .Values.ingress.domain }}'
       secretName: {{ include "mlflow.name" . }}-cert # The secret in which the TLS certificate should be stored.
