@@ -32,7 +32,7 @@ spec:
                   name: {{ include "mlflow.name" . }}
                   key: BACKEND_STORE_URI
             - name: ARTIFACTS_DESTINATION
-              value: '/home/cnb/aksshare/{{ .Release.Namespace }}/{{ include "mlflow.name" . }}/artifacts'
+              value: '/home/cnb/artifacts/{{ .Release.Namespace }}/{{ include "mlflow.name" . }}/artifacts'
             - name: HOST
               value: '0.0.0.0'
             - name: PORT
@@ -48,7 +48,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - mountPath: /home/cnb/aksshare/
+            - mountPath: /home/cnb/artifacts/
               name: artifact-store
       initContainers:
         - name: {{ .Chart.Name }}-db-migration
