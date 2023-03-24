@@ -53,11 +53,11 @@ spec:
       initContainers:
         - name: {{ .Chart.Name }}-db-migration
           image: "ghcr.io/aisotag/docker/mlflow:{{ .Chart.AppVersion }}"
+          args:
+            - '-c'
+            - mlflow db upgrade $(BACKEND_STORE_URI) || true # Upgrade will not work on an empty db, but the main container will create the schema. As a workaround we just continue even if mlflow db upgrade fails.
           command:
-            - mlflow
-            - db
-            - upgrade
-            - $(BACKEND_STORE_URI)
+            - /bin/sh
           env:
             - name: BACKEND_STORE_URI
               valueFrom:
