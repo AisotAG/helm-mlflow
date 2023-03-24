@@ -11,7 +11,7 @@ resources:
     cpu: 50m
     memory: 1024Mi
 
-postgresql:
+mlflow-postgresql:
   image:
     tag: 11.11.0-debian-10-r92
   postgresqlPassword: postgres
