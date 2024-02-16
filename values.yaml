@@ -13,7 +13,6 @@ resources:
 mlflow-postgresql:
   image:
     tag: 16.1.0-debian-11-r27
-  postgresqlPassword: postgres
   fullnameOverride: mlflow-postgresql
   global:
     postgresql:
