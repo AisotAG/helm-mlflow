@@ -25,7 +25,7 @@ appVersion: "0.0.0"
 
 dependencies:
   - name: postgresql
-    version: 10.16.2
-    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+    version: 14.0.5
+    repository: oci://registry-1.docker.io/bitnamicharts
     condition: postgresql.enabled
     alias: mlflow-postgresql
